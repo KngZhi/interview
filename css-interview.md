@@ -16,7 +16,9 @@ css 基本语句构成是？
 }
 ```
 
-哪些 CSS 属性可以继承？
+<!-- TODO: 找三个 CSS2.0 的兼容性问题 -->
+
+ 哪些 CSS 属性可以继承？
 
 > 可继承：font-size, font-family, color, text-indent 有关于字体的
 
