@@ -16,9 +16,22 @@ css 基本语句构成是？
 }
 ```
 
-<!-- TODO: 找三个 CSS2.0 的兼容性问题 -->
+CSS2.0 的兼容性问题
+```css
+/*双边距 bug float引起的*/
+.x { display: inline}
+/* IE5-8 不支持 opacity*/
+.y {opacity: .4; filter: alpha(opacity=60);}
+```
 
- 哪些 CSS 属性可以继承？
+让文字在垂直和水平方向上重叠的两个属性是什么？
+> 垂直方向：`line-height`；水平方向：`letter-spacing`
+
+`letter-spacing` 的作用是什么？
+控制字节之间的空隙，可以用来消除 `inline-block` 元素之间的换行符空格间隙问题
+
+
+哪些 CSS 属性可以继承？
 
 > 可继承：font-size, font-family, color, text-indent 有关于字体的
 
@@ -103,7 +116,7 @@ css 中 `link` 和 `@import` 的区别？
 
 什么是 BFC[tbc]
 
-> BFC 又称为 block formatting context , 块级格式化上下文；
+> BFC 又称为 block formatting context , 块级格式化上下文；它规定了内部的如何布局，并且与这个独立盒子里的布局不受外部影响，当然它也不会影响到外面的元素。
 
 如何触发 BFC？
 
