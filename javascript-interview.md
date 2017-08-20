@@ -3,7 +3,8 @@ temp
 
 array.splice()的用法
 
-
+同步(Synchronous)与异步(Asynchronous)的区别？
+> 阻塞和非阻塞关注的是程序在等待调用结果（消息，返回值）时的状态.
 ---
 
 隐式转换与显示转换
@@ -79,7 +80,8 @@ js 延迟加载的方式有哪些？
 > - 后端代理
 > - window.postMessage (h5)
 
-描述下这四个数组方法 `push/pop/shift/unshift` ;
+
+
 
 ## Basic
 
@@ -89,7 +91,7 @@ JS 常用的设计模式有哪些? [tbc]
 
 
 截取字符串由哪些方法
-
+>
 - `string.slice()`；
 - `string.substring()`;
 - `string.substr()`;
@@ -119,15 +121,7 @@ JS 常用的设计模式有哪些? [tbc]
 
   > CMD, 同步加载模块; AMD, 非同步加载模块; CommonJS;
 
-JavaScript 的内置对象和宿主对象？
 
-- 内置： Object, Array, Function, Data, Math
-- 宿主： 浏览器自带的 Window
-
-`window.onload` 和 `document.ready` 的区别
-
-- 前者是当文档树和所有文件加载完后执行函数
-- 后者是指当文档树加载完毕后执行的函数
 
 AMD(Modules/Asychronous-Definition), CMD(Common Module Definition), CommonJS 规范区别？
 
@@ -138,6 +132,18 @@ AMD(Modules/Asychronous-Definition), CMD(Common Module Definition), CommonJS 规
 
   - 通过 `require()` 进行接受
   - 通过 `module.export` 进行暴露
+
+
+JavaScript 的内置对象和宿主对象？
+
+- 内置： Object, Array, Function, Data, Math
+- 宿主： 浏览器自带的 Window
+
+`window.onload` 和 `document.ready` 的区别
+
+- 前者是当文档树和所有文件加载完后执行函数
+- 后者是指当文档树加载完毕后执行的函数
+
 
 深拷贝和浅拷贝(shallow copy)的区别
 
@@ -217,11 +223,18 @@ console.log(year + '-' + month + '-' + day);
 ### 闭包、原型与原型链
 什么是闭包?
 
-> 外部函数访问内部函数变量的过程称作闭包; 在 es6 中 let 生成的块级作用域就是为了替代闭包的; 生成的变量会被 GC 回收机制回收，那么就不会造成内存的泄漏了；
+> `闭包` 是指有权访问另一个函数作用域中的变量的函数。
+
+闭包的特性：
+> 1. 函数嵌套函数
+> 2. 函数内部可以应用外部的参数和变量
+> 3. 参数和变量不会被垃圾回收机制回收
+
+; 在 es6 中 let 生成的块级作用域就是为了替代闭包的; 生成的变量会被 GC 回收机制回收，那么就不会造成内存的泄漏了；
 
 闭包的使用场景有哪些?
 
-> 面向功能(模块)的封装;
+> 面向功能(模块)的封装; 设计私有的方法和变量；
 
 请描述下闭包的优/缺点?
 
@@ -230,13 +243,14 @@ console.log(year + '-' + month + '-' + day);
 什么是内存泄漏，在 JS 中哪些操作会造成内存泄漏？
 > 不再用到的内存，没有及时释放，就是 memory leak;
 
-你能手写一个闭包吗？[tbc]
-> function 中 return 一个 function
-
+你能手写一个闭包吗？
+> 在函数中创建另一个函数，通过另一个函数访问这个函数的局部变量
 
 原型和原型链
 
 > 每个对象拥有一个原型对象，对象以其原型为模板、从原型继承方法和属性。原型对象也可能拥有原型，并从中继承方法和属性，一层一层、以此类推。这种关系常被称为原型链 (prototype chain)，它解释了为何一个对象会拥有定义在其他对象中的属性和方法。(mdn)[]
+
+原型链的继承
 
 对象中内置了一个 Constructor；
 
@@ -262,11 +276,8 @@ IE 和 DOM 事件流的区别？
 > 3. 事件加不加on
 > 4. IE this 指向 window, dom 指向调用事件处理函数的对象
 
-同步(Synchronous)与异步(Asynchronous)的区别？
-> 阻塞和非阻塞关注的是程序在等待调用结果（消息，返回值）时的状态.
-## RegEx
-
-
+什么是事件代理？
+> 又称事件委托，将原本需要绑定的事件委托给父元素，让父元素担当事件监听的植物。利用了事件冒泡；
 
 
 ## this
@@ -319,18 +330,114 @@ Ajax 的工作原理
 
 > 原理就是在用户和服务器之间加一个中间层，使用户操作与服务器响应异步化。将以往一些服务器负担的工作转移到客户端
 
+Ajax 的缺点
+- 无法使用后退按钮
+- 影响了页面流程的异常机制
+- 对 SEO 不友好
+
+## 排序算法
+[[github](https://github.com/nzakas/computer-science-in-javascript/)] Collection of classic computer science paradigms, algorithms, and approaches written in JavaScript. http://www.nczonline.net/
+
+
+[[ref](https://juejin.im/post/57dcd394a22b9d00610c5ec8)]排序算法：是对一序列对象根据某个关键字进行排序
+
+
+对于算法性能术语的说明
+
+- 稳定性：如果a原本在b前面，而a=b，排序之后a仍然在b的前面； 不稳定：如果a原本在b的前面，而a=b，排序之后a可能会出现在b的后面；
+- 内排序：所有排序操作都在内存中完成；
+- 外排序：由于数据太大，因此把数据放在磁盘中，而排序通过磁盘和内存的数据传输才能进行；
+- 时间复杂度: 一个算法执行所耗费的时间。
+- 空间复杂度: 运行完一个程序所需内存的大小。
+
+
+```js
+// 冒泡排序
+var bubble = {
+  time: 'O(n^2) - O(n)',
+  space: 'O(1)',
+  stability: 'stable',
+  descripiton: '重复遍历需要排序的数列，一次比较两个，顺序错误则交换，遍历过程直至两个元素无需交换，此时说明数列已经排序完成',
+  bubbleSort: function(data) {
+
+  }
+}
+
+// 选择排序 (Selection Sort)
+var selection = {
+  time: 'O(n^2)',
+  space: 'O(1)',
+  stability: 'unstable',
+  descripiton: '重复遍历需要排序的数列，一次比较两个，顺序错误则交换，遍历过程直至两个元素无需交换，此时说明数列已经排序完成',
+  bubbleSort: function(data) {
+    descripiton: '找到最小（大）的元素存在排序序列的起始位置，以此往复，直至所有元素均排序完毕',
+    selectionSort: function (data) {
+        var len = arr.length;
+        var minIndex, temp;
+        for (var i = 0; i < len - 1; i++) {
+          minIndex = i;
+          for (var j = i + 1; j < len; j++) {
+            if (arr[j] < arr[minIndex]) {     //寻找最小的数
+              minIndex = j;                 //将最小数的索引保存
+            }
+          }
+          temp = arr[i];
+          arr[i] = arr[minIndex];
+          arr[minIndex] = temp;
+        }
+        return arr;
+      }
+    }
+  },
+}
+
+// 插入排序 (Insertion Sort)
+var insertion = {
+  time: 'O(n) - O(n^2)',
+  stability: 'stable'
+  descripiton: '通过构建有序列，对未排序数据，在已排序序列中从后向前',
+  insertion: function (items) {
+    var len     = items.length,     // number of items in the array
+        value,                      // the value currently being compared
+        i,                          // index into unsorted section
+        j;                          // index into sorted section
+
+    for (i=0; i < len; i++) {
+
+        // store the current value because it may shift later
+        value = items[i];
+
+        /*
+         * Whenever the value in the sorted section is greater than the value
+         * in the unsorted section, shift all items in the sorted section over
+         * by one. This creates space in which to insert the value.
+         */
+        for (j=i-1; j > -1 &#038;&#038; items[j] > value; j--) {
+            items[j+1] = items[j];
+        }
+
+        items[j+1] = value;
+    }
+
+    return items;
+  }
+}
+
+// 快速排序 (Quick Sort)
+var quick = {
+  time: 'O(n log n) - O(n^2)',
+  space: 'O(log n)'
+  descripiton: '通过分治法利用中间基准将一个数组分为两个进行排序，然后利用递归来重复直至排序结束'
+}
+```
+
 
 ## 数组
 在Javascript中什么是伪数组？如何将伪数组转化为标准数组？
 > 伪数组（类数组）：无法直接调用数组方法或 length 属性，但仍可以对真正数组遍历方法来遍历它们。典型的是函数的argument参数，还有像调用getElementsByTagName,document.childNodes之类的,它们都返回NodeList对象都属于伪数组。可以使用Array.prototype.slice.call(fakeArray)将数组转化为真正的Array对象
 
-数组去重：算法术语
+描述下这四个数组方法 `push/pop/shift/unshift` ;
 
-稳定性：如果a原本在b前面，而a=b，排序之后a仍然在b的前面； 不稳定：如果a原本在b的前面，而a=b，排序之后a可能会出现在b的后面；
-
-内排序：所有排序操作都在内存中完成； 外排序：由于数据太大，因此把数据放在磁盘中，而排序通过磁盘和内存的数据传输才能进行；
-
-时间复杂度: 一个算法执行所耗费的时间。 空间复杂度: 运行完一个程序所需内存的大小。
 
 [JavaScript 数组去重 #9](https://is.gd/F8x7Ox)
 
