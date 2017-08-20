@@ -1,11 +1,5 @@
 # Angular 面试总结
 
-
-
-
-
----
-
 您为什么选用 angular 框架啊？
 > 它是由 Google 开源发布的一款 MVVM 框架，适用于增删改查或单页面应用，我们当时的项目的需求就是这个。
 
@@ -22,17 +16,30 @@
   - 进行测试
   - 上线时使用 gulp 来打包
 
-[que] 怎么搭建一个 angular 项目
+怎么搭建一个 angular 项目
 > 按照需求分为几个模块，然后每个模块分为几个层，过滤控制，服务层，根据MVC，视图获取数据，过滤成过滤，控制层发送到服务层，服务层进行数据的对接；
 
 如果使用 ionic 框架怎么使用?
 > 通过 seed 来搭建 Ionic
 
+什么是 MVC？
+- 模型（Model）：数据保存; 视图（View）：用户界面; 控制器（Controller）：业务逻辑
+- 数据传输过程
+  - View 传送指令到 Controller
+  - Controller 完成业务逻辑后，要求 Model 改变状态
+  - Model 将新的数据发送到 View ，用户得到反馈
+
+所有通信都是单向的。
+
+什么是 MVVM？
+- 模型（Model）; 视图（View）; 视图模型（ViewModel）;
+- View 与 Model 不发生联系，都通过 ViewModel 传递
+
 能简单说一下 MVC 和 MVVM 的区别吗？
 
 >
 - MVC: model, view, controller;MVVM: model, view, viewmodel;
-- [que] MVC: 除了 view 和 controller 不能相互传递之外，其他都可以相互传递值;MVVM:  ;
+- [que] MVC: 除了 view 和 controller 不能相互传递之外，其他都可以相互传递值;
 - MVVM 是 mvc 的一个分支 ， angular 是 MVW 框架，即 model view whatever;
 
 能说下 angular 框架的有什么优点吗？
@@ -167,4 +174,4 @@ angular 中的路由切换？
 7. angular的缺点有哪些？
 8. 如何看待angular 1.2中引入的controller as 语法？
 9. 详述angular的“依赖注入”
-10.  如何看待angular 2……
+10. 如何看待angular 2
