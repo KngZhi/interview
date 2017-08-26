@@ -39,7 +39,6 @@
 
 >
 - MVC: model, view, controller;MVVM: model, view, viewmodel;
-- [que] MVC: 除了 view 和 controller 不能相互传递之外，其他都可以相互传递值;
 - MVVM 是 mvc 的一个分支 ， angular 是 MVW 框架，即 model view whatever;
 
 能说下 angular 框架的有什么优点吗？
@@ -71,7 +70,7 @@ angular 的方法和普通的函数，哪个优先级更高？
 > angular 中优先执行 ng 指令和方法；
 
 自定义服务的方法有几种？
-> `service`, `factory`, `provider`
+> `service`, `factory`, `provider`, `vale`, `const`
 
 能说下三者的区别吗？
 > service 用来定义枚举或构造函数服务，factory 必须使用 return 返回，通常用于自定义接口。provider 用于初始化，同时必须使用 $get 返回定义的属性和方法
@@ -79,10 +78,6 @@ angular 的方法和普通的函数，哪个优先级更高？
 自定义供应商服务中 $get 是什么用？
 > 用于返回控制器中定义的属性和方法；
 
-[que]factory和service，provider是什么关系？
-> factory 把 service 的方法和数据放在一个对象里，并返回这个对象；service 通过构造函数方式创建 service，返回一个实例化对象；provider 创建一个可通过 config 配置的 service。
-
-> 从底层实现上来看，service 调用了 factory，返回其实例；factory 调用了 provider，将其定义的内容放在 $get 中返回。factory 和 service 功能类似，只不过 factory 是普通 function，可以返回任何东西（return 的都可以被访问，所以那些私有变量怎么写你懂的）；service 是构造器，可以不返回（绑定到 this 的都可以被访问）；provider 是加强版 factory，返回一个可配置的 factory。
 
 
 自定义指令
@@ -124,14 +119,11 @@ app.filter('过滤器名称',function(){
 $filter('date')(now, 'yyyy-MM-dd hh:mm:ss');
 ```
 
-[que]`$q` 是什么用的？
-
+[q]`$q` 是什么用的？
 > $q 延迟服务，为了给异步操作提供扩展, 属于底层的服务。
 
----
-
-传统的路由与单页面路由的区别是什么？
-> 传统的是页面的切换，而单页面只是页面中内容的切换
+[q] 传统的路由与单页面路由的区别是什么？
+> 传统的是页面间的跳转，而 ng 中的路由是指页面中内容的切换
 
 angular 中的路由切换？
 > angular 中的路由分为 ui-route, ng-route
@@ -142,9 +134,8 @@ angular 中的路由切换？
 - 两者都需要以模块依赖的形式引入
 
 >不同点：
->
-- ng 是 angular自带的模块， ui 是基于 ngRoute 模块的第三方模块
-- ui 是基于 state(状态) , ng 是基于 url(路径) 配合 $location 设置 path, ui 路由具有更强大的功能，主要体现在视图的嵌套(views 的配置)
+- ng 是 angular自带的模块 $routeProvider， ui 是基于 ngRoute 模块的第三方模块 $stateProvider
+- ui 是基于 state(状态) , ng 是基于 when url(路径) 配合 $location 设置 path, ui 路由具有更强大的功能，主要体现在视图的嵌套(views 的配置)
 - 这种嵌套通过 `<div ui-view>` 实现视图嵌套
 
 如何检索当前路由参数集合？
@@ -163,6 +154,37 @@ angular 中的路由切换？
 4. {{now | 'yyyy-MM-dd'}}这种表达式里面，竖线和后面的参数通过什么方式可以自定义？
 5. factory和service，provider是什么关系？
 
+小问题回答：
+
+第一题
+> `ng-if` 只有在后面的表达式为真时才创建该 DOM 节点， `ng-show` 则在一开始就创建了，通过 `display: none|block` 来控制显示与否
+
+第二题
+
+报错: Duplicates in repeater are not allowed，解决方法：track by $index. 只要给每一个元素添加唯一的标识符即可（建立 DOM 和数据之间的关联）
+
+第三题
+
+不同，因为在页面的调用的方法并不存在于与该页面相对应的 Controller 中的 $scope, 除非在$scope 中添加这个函数
+
+第四题
+
+```js
+app.filter('name', function () {
+  return function ('需要过滤的对象'[,...'过滤参数']) {
+    // code here
+  }
+})
+```
+
+第五题
+
+factory 把 service 的方法和数据放在一个对象里，返回该对象；service 通过构造函数方式创建 service，返回一个实例化对象；provider 创建一个可通过 config 配置的 service。
+
+从底层实现上来看，service 调用了 factory，返回其实例；factory 调用了 provider，将其定义的内容放在 $get 中返回。factory 和 service 功能类似，只不过 factory 是普通 function，可以返回任何东西（return 的都可以被访问)；service 是构造器，可以不返回（绑定到 this 的都可以被访问）；provider 是加强版 factory，返回一个可配置的 factory。
+
+
+
 解答题：
 
 1. angular的数据绑定采用什么机制？详述原理
@@ -175,3 +197,16 @@ angular 中的路由切换？
 8. 如何看待angular 1.2中引入的controller as 语法？
 9. 详述angular的“依赖注入”
 10. 如何看待angular 2
+
+
+第一题
+
+脏检查机制。Angular 会在 scope 模型上设置一个监听队列，用于监听数据变化并更新 view. 每次绑定一个元素到 view 上时 Angular 就会往 `$watch` 队列里插入一条 `$watch`，用来检测监视的 model 里是否有变化。当指定事件触发时，Angular 会进入 `$digest` 循环，然后去遍历所有的 `$watch` ，然后更新 DOM。
+
+第二题
+
+(Controller)平级界面进行通信分为两种方式
+- 共用服务: 通过 factory 生成一个单例对象，在需要通信的模块中注入该对象即可。
+- 基于事件
+  - 借助于父 controller, 一个子元通过 `$emit` 触发事件，父元素通过 `$on` 监听在 `$broadcast` 给子元素。
+  - 借助 `$rooterScope` 
