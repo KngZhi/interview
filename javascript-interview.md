@@ -223,7 +223,7 @@ console.log(year + '-' + month + '-' + day);
 ### 闭包、原型与原型链
 什么是闭包?
 
-> `闭包` 是指有权访问另一个函数作用域中的变量的函数。
+> `闭包` 是指有权访问外部作用域的变量的函数。
 
 闭包的特性：
 > 1. 函数嵌套函数
@@ -501,3 +501,41 @@ function unique(arr) {
   return Array.from(new Set(arr))
 }
 ```
+
+为什么一定要在 `constructor` 中声明 `super()`? [[sof](http://bit.ly/2CYV9Xx)]
+> 1. 在子类的 `constructor` 中在调用 `super` 之前不能使用 `this`
+> 2. ES6 class constructor MUST call `super` if they are subclass, or they must explicitly return some object to take the place of the one that was not initialized.(或者它们必须明确返回一些对象来取代其中没有被初始化的。) `return Object.create(new.target.prototype, …)`
+
+
+```js
+class MyClass extends React.Component {
+    constructor(){
+        super()
+    }
+}
+```
+Questions[[ref](http://bit.ly/2oF5J1y)]:
+1. Is it necessary to call `super()` inside constructor?
+2. What is the difference between calling `super()` and `super(props)` in React?
+
+Ans:
+1. Always call `super()` **if you have a constructor** and don't worry about it if you don't have a constructor
+  - 为什么不能在 `super()` 之前调用 `this`?
+    如果继承的子类中的 constructor 没有调用 `super()` 则被爆出 `ReferenceError`, 原因在于 `this` 没有得到初始化
+
+2. Call `super(props)` only if you want to access `this.props` inside the constructor. React automatically set it for you if you want to access it anywhere else.
+
+## 正则 Regex
+
+- `i/g/m` 等的含义
+> 它们都是 flag, i: 忽视大小写, g: global match 找到所有符合条件而不是只是第一个, m: multiline 多行匹配
+
+- `replace` 方法第二个参数是函数的情况
+> 会给函数传入几个参数 `match` `p1/p2/p3` `offset` `string`
+
+
+## ES6
+`var`, `let`, `const` what's the difference of those?
+- `let` 与 `const` 会创建块级作用域，块级作用域中声明的变量会在使用之后会消除
+- `let` 声明的变量不能重复声明，但可以修改，而 `const` 声明的变量不可以修改也不可以重复声明
+- `var` 可以重复声明变量，也可以修改。同时还会有变量提升的情况。但在严格模式下不会出现该现

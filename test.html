@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<style>
+  #fileDropZone {
+    width: 100px;
+    height: 100px;
+    border: 1px solid red;
+  }
+
+
+  .item1 {
+    display: inline-block;
+    background-color: pink;
+  }
+
+  .item2 {
+    margin-left: -105px;
+    background-color: orange;
+  }
+</style>
+
+<body>
+  <form id="msgbox" action="#" method="get">
+    <label for="msg">your message</label>
+    <input type="password" id="msg" value="" />
+    <button>SEND</button>
+  </form>
+  <div id="testBox">测试页面</div>
+
+  <a id="testClick" href="javascirpt:;">别用鼠标点我！键盘也不行！</a>
+
+</body>
+<script>
+  const is = {
+    func: (arg) => typeof arg === 'function',
+    array: (arg) => Array.isArray(arg),
+    string: (arg) => typeof arg === 'string',
+    undefined: (arg) => typeof arg === 'undefined',
+    object: (arg) => typeof arg === 'object' 
+  }
+  let EventTarget = function () {
+    this._listener = {}
+  }
+
+  EventTarget.prototype = {
+    constructor: this,
+    _listener: {},
+    // add callback to specific type of event
+    addEvent(type, fn) {
+      let cbs = this._listener[type]
+      if (is.undefined(cbs)) {
+        this._listener[type] = []
+      }
+      if (is.func(fn)) {
+        this._listener[type].push(fn)
+      }
+      return this
+    },
+
+    addEvents(obj) {
+      obj = is.object(obj) ? obj : {}
+      let type;
+      for(type in obj) {
+        const cb = obj[type]
+        if(type && is.func(cb)) {
+          this.addEvent(type, cb)
+        }
+      }
+      return this
+    },
+    // emit the type of event and its handler
+    fireEvent(type) {
+      const events = this._listener[type]
+      if (is.array(events) && events.length) {
+        events
+          .filter(cb => is.func(cb))
+          .forEach(cb => cb.call(this))
+      }
+      return this
+    },
+    fireEvents(array) {
+      if(is.array(array)) {
+        array.forEach(type => this.fireEvent(type))
+      }
+      return this
+    },
+    // delete
+    removeEvent(type, cb) {
+      let cbs = this._listener[type]
+      if (is.string(type) && is.array(cbs)) {
+        if (is.func(cb)) {
+          cbs.forEach((fn, idx) => {
+            if (fn === cb) {
+              this._listener[type].splice(idx, 1)
+            }
+          });
+        } else {
+          delete this._listener[type]
+        }
+      }
+      return this
+    }
+  }
+  var obj = {
+    name: 'hello',
+    twice: function (params) {
+      console.log(this.name);
+    }
+    
+  }
+  obj.twice()
+
+  function foo(params) {
+    var name = 'hello world' 
+    var show = function () {
+      console.log(this);
+    }
+    show()
+    (function() {
+      var name = 'this name'
+      var far = function () { 
+        console.log(this.name) 
+      }
+      far()
+    })()
+  }
+  foo()
+
+  let myEvents = new EventTarget()
+  myEvents.addEvents({
+    'twice': function () {
+      console.log('this is once handler')
+    },
+    'infinity': () => {
+      console.log('this is inifnity handle')
+    }
+  })
+  myEvents.fireEvents(['twice', 'infinity'])
+</script>
+
+</html>

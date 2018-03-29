@@ -84,9 +84,7 @@ react
 event/diff/
 
 真实 DOM 渲染
-createElement , class, factory
 
-createElement yu cloneElement 的区别
 
 react 中项目，两者侧重点不同：
 wp 转义成浏览器兼容的版本
@@ -319,7 +317,6 @@ typeof 的返回值
 冒泡排序; 二叉树交换; 快速排序; 左右数列, 递归函数; 插入排序;
 
 ## HTTP
-
 TCP 的为了解决什么问题？
 
 > 为了更容易的将大数据传输将其切割，同时能够确认数据是否送达；
